@@ -23,9 +23,17 @@ t_data *init_data(size_t max_size)
 	dat->a = init_stack(max_size);
 	dat->a->meta = dat;
 	dat->a->max_size = &dat->max_size;
+	dat->a->ops[SWAP] = swap_a;
+	dat->a->ops[PUSH] = push_b;
+	dat->a->ops[ROT] = rot_a;
+	dat->a->ops[REV] = rev_a;
 	dat->b = init_stack(max_size);
 	dat->b->meta = dat;
 	dat->b->max_size = &dat->max_size;
+	dat->b->ops[SWAP] = swap_b;
+	dat->b->ops[PUSH] = push_a;
+	dat->b->ops[ROT] = rot_b;
+	dat->b->ops[REV] = rev_b;
 	dat->ops_head = 0;
 	return (dat);
 }

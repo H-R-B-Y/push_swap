@@ -26,6 +26,9 @@ static void	_rot(t_stack *st)
 		index--;
 	}
 	st->items[0] = tmp;
+	st->i_max++;
+	st->i_min++;
+	_min_max(st);
 }
 
 void	rot_a(t_data *dat)

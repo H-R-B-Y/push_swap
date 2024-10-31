@@ -19,41 +19,70 @@
 
 // Typedefs:
 
+typedef struct s_stack	t_stack;
+typedef struct s_data	t_data;
+
 typedef enum e_op_code {
-	SA, SB, SS, PA, PB,
-	RA, RB, RR,
-	RRA, RRB, RRR,
+	SWAP, PUSH, ROT, REV,
 	OP_CODE_COUNT
 } t_op_code;
 
 typedef struct s_pos
 {
-	int			val;
-	long long	pos;
+	int				val;
+	long long		pos;
 }	t_pos;
 
+/**
+ * This struct describes a number of operations to be prformed.
+ * it is aimed to be a part of a linked list to describe a movement
+ * I want to use this as part of the cost caluclation so that a given cost
+ * only needs to be performed once.
+ */
+typedef struct s_op_desc
+{
+	t_op_code	op;
+	t_stack		*st;
+	long long	count;
+}	t_op_desc;
+
+/**
+ * Describes the count of operations to move item at index to 
+ * the correct position, the linked list should contain 
+ * op desc equal to ops.
+ */
 typedef struct s_opc
 {
 	long long	index;
 	long long	op_count;
+	t_list		*ops;
 }	t_opc;
 
-typedef struct s_stack {
+/**
+ * Stack!
+ * min and max should not need to be re-calculated 
+ * if they are integrated into the operations.
+ */
+struct s_stack {
 	int				*items;
 	long long		top;
 	long long		*max_size;
 	long long		i_max; // index of max item
 	long long		i_min; // index of min item
-	struct s_data	*meta;
-}	t_stack;
+	void			(*ops[OP_CODE_COUNT])(t_data *);
+	t_data			*meta;
+};
 
-typedef struct s_data
+/**
+ * Meta data
+ */
+struct s_data
 {
 	t_stack 		*a;
 	t_stack			*b;
 	long long		max_size;
 	t_list			*ops_head;
-}	t_data;
+};
 
 
 // Generics:
@@ -117,7 +146,22 @@ void	print_stack(t_stack *st);
 void	print_ops(t_data *dat);
 void	print_stacks(t_data *dat);
 
-void	_min_max(t_stack *st);
+// Accounting
 
+t_opc	*create_cost(long long index);
+void	destroy_cost(t_opc *cst);
+
+int	append_ops(t_opc *cst, t_stack *st,
+		t_op_code code, long long count);
+
+// size_t	cost_to_move_to_top(t_stack *st, long long index);
+size_t	cost_to_move_to_top(t_opc *cst, t_stack *st , long long index);
+size_t	cost_for_position(t_opc *cst, t_stack *st, int value);
+t_opc	*get_cost(t_stack *from, t_stack *too, long long index);
+t_opc	*get_least_cost(t_stack *from, t_stack *too);
+
+// Stuff that shouldn't exist goes here (re-factor this into something else.)
+
+void	_min_max(t_stack *st);
 
 #endif

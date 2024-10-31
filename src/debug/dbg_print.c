@@ -71,10 +71,9 @@ void print_stacks(t_data *dat)
 	ft_printf("--------------------------------------\n");
 	while (i >= 0)
 	{
-		if (i > dat->a->top && i > dat->b->top)
+		if (i > dat->a->top && i > dat->b->top && i--)
 		{
 			ft_printf("		|		\n");
-			i--;
 			continue ;
 		}
 		if (i <= dat->a->top)
@@ -90,5 +89,4 @@ void print_stacks(t_data *dat)
 	}
 	ft_printf("--------------------------------------\n");
 	ft_printf("A		|		B\n");
-	usleep(155550);
 }

@@ -15,7 +15,15 @@
 static void	_swap(t_stack *st)
 {
 	int	tmp;
-
+	if (st->i_max == st->top)
+		st->i_max--;
+	else if (st->i_max == st->top - 1)
+		st->i_max++;
+	if (st->i_min == st->top)
+		st->i_min--;
+	else if (st->i_min == st->top - 1)
+		st->i_min++;
+	_min_max(st);
 	tmp = st->items[st->top];
 	st->items[st->top] = st->items[st->top - 1];
 	st->items[st->top - 1] = tmp;

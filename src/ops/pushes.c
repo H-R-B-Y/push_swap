@@ -15,36 +15,30 @@
 
 void	_min_max(t_stack *st)
 {
-	long long i;
-	t_pos min;
-	t_pos max;
-
-	i = 0;
-	min.val = st->items[st->top];
-	min.pos = st->top;
-	max.pos = st->top;
-	max.val = st->items[st->top];
-	if (!st || is_empty(st))
-		return ;
-	while (i <= st->top)
-	{
-		if (st->items[i] > max.val)
-			max = (t_pos){st->items[i], i};
-		else if (st->items[i] < min.val)
-			min = (t_pos){st->items[i], i};
-		i++;
-	}
-	st->i_max = max.pos;
-	st->i_min = min.pos;
+	if (st->i_max > st->top)
+		st->i_max = 0;
+	else if (st->i_max < 0)
+		st->i_max = st->top;
+	if (st->i_min > st->top)
+		st->i_min = 0;
+	else if (st->i_min < 0)
+		st->i_min = st->top;
 }
 
 void	push_a(t_data *dat)
 // pa (push a): Take the first element at the top of b and put it at the top of a.
 // Do nothing if b is empty.
 {
+	int	val;
+
 	if (!dat || is_empty(dat->b))
 		return ;
-	push(dat->a, pop(dat->b));
+	val = pop(dat->b);
+	push(dat->a, val);
+	if (dat->a->i_max == -1 || dat->a->items[dat->a->i_max] < val)
+		dat->a->i_max = dat->a->top;
+	if (dat->a->i_min == -1 || dat->a->items[dat->a->i_min] > val)
+		dat->a->i_min = dat->a->top;
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("pa")));
 }
 
@@ -52,8 +46,15 @@ void	push_b(t_data *dat)
 // pb (push b): Take the first element at the top of a and put it at the top of b.
 // Do nothing if a is empty.
 {
+	int val;
+
 	if (!dat || is_empty(dat->a))
 		return ;
-	push(dat->b, pop(dat->a));
+	val = pop(dat->a);
+	push(dat->b, val);
+	if (dat->b->i_max == -1 || dat->b->items[dat->b->i_max] < val)
+		dat->b->i_max = dat->b->top;
+	if (dat->b->i_min == -1 || dat->b->items[dat->b->i_min] > val)
+		dat->b->i_min = dat->b->top;
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("pb")));
 }

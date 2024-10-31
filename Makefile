@@ -23,7 +23,9 @@ SRC			= \
 			$(SRC_DIR)/ops/swaps.c \
 			$(SRC_DIR)/debug/dbg_print.c \
 			$(SRC_DIR)/struct_data.c \
-			$(SRC_DIR)/struct_stack.c 
+			$(SRC_DIR)/struct_stack.c \
+			$(SRC_DIR)/cost.c \
+			$(SRC_DIR)/struct_opcst.c
 
 
 OBJ			= $(SRC:.c=.o)
