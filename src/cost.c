@@ -48,7 +48,6 @@ V		I		M
 */
 size_t	cost_for_position(t_opc *cst, t_stack *st, int value)
 {
-
 	long long index;
 
 	index = st->top;
@@ -68,30 +67,15 @@ t_opc	*get_cost(t_stack *from, t_stack *too, long long index)
 	t_opc	*cost;
 
 	cost = create_cost(index);
-	// cost->op_count = 1; // We always need to push so it will always be atleast 1;
-	// cost to move it to the top of the stack!
 	cost->op_count += cost_to_move_to_top(cost, from, index);
-
 	if (from->items[index] > too->items[too->i_max])
-	{
 		cost->op_count += cost_to_move_to_top(cost, too, too->i_max);
-	}
 	else if (from->items[index] < too->items[too->i_min])
-	{
 		cost->op_count += cost_to_move_to_top(cost, too, too->i_max);
-	}
+	else if (too->i_min - too->i_max == 0)
+		cost->op_count += append_ops(cost, too, ROT, 1);
 	else
-	{ // If it is not the newest min or max value we need to find where to put it
-		if (too->i_min - too->i_max == 0)
-		{
-			append_ops(cost, too, ROT, 1);
-			cost->op_count += 1;
-		}
-		else
-		{
-			cost->op_count += cost_for_position(cost, too, from->items[index]);
-		}
-	}
+		cost->op_count += cost_for_position(cost, too, from->items[index]);
 	cost->op_count += 1;
 	append_ops(cost, from, PUSH, 1);
 	return (cost);
@@ -106,7 +90,7 @@ t_opc	*get_least_cost(t_stack *from, t_stack *too)
 
 	index = from->top;
 	current_least = get_cost(from, too, index--);
-	while (current_least->op_count != 2 && index >= 0) // loop through all items in from
+	while (!(current_least->op_count <= 2) && index >= 0) // loop through all items in from
 	{
 		temp = get_cost(from, too, index--);
 		if (temp->op_count < current_least->op_count)

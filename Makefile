@@ -17,16 +17,27 @@ MAIN		= $(SRC_DIR)/main.c
 
 SRC			= \
 			$(SRC_DIR)/generics.c \
+			$(SRC_DIR)/debug/printable.c \
+			$(SRC_DIR)/struct_data.c \
+			$(SRC_DIR)/struct_stack.c \
+			$(SRC_DIR)/struct_opcst.c \
+			$(SRC_DIR)/cost.c
+
+ifeq ($(DEBUG), debug)
+	SRC		+= \
+			$(SRC_DIR)/debug/dbg_pushes.c \
+			$(SRC_DIR)/debug/dbg_rev_rotations.c \
+			$(SRC_DIR)/debug/dbg_rotations.c \
+			$(SRC_DIR)/debug/dbg_swaps.c \
+			$(SRC_DIR)/debug/sort.c
+else
+	SRC		+= \
 			$(SRC_DIR)/ops/pushes.c \
 			$(SRC_DIR)/ops/rev_rotations.c \
 			$(SRC_DIR)/ops/rotations.c \
 			$(SRC_DIR)/ops/swaps.c \
-			$(SRC_DIR)/debug/dbg_print.c \
-			$(SRC_DIR)/struct_data.c \
-			$(SRC_DIR)/struct_stack.c \
-			$(SRC_DIR)/cost.c \
-			$(SRC_DIR)/struct_opcst.c
-
+			$(SRC_DIR)/sort.c
+endif
 
 OBJ			= $(SRC:.c=.o)
 
@@ -53,6 +64,7 @@ $(NAME):	$(MAIN) $(HEADER) $(PRINTF) $(LIBFT) $(OBJ)
 
 clean:
 			rm -f $(OBJ)
+			rm -f $(SRC_DIR)/debug/*.o
 			$(MAKE) --directory $(PRINTF_DIR) clean
 			$(MAKE) --directory $(LIBFT_DIR) clean
 

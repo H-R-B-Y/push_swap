@@ -27,12 +27,6 @@ typedef enum e_op_code {
 	OP_CODE_COUNT
 } t_op_code;
 
-typedef struct s_pos
-{
-	int				val;
-	long long		pos;
-}	t_pos;
-
 /**
  * This struct describes a number of operations to be prformed.
  * it is aimed to be a part of a linked list to describe a movement
@@ -64,13 +58,13 @@ typedef struct s_opc
  * if they are integrated into the operations.
  */
 struct s_stack {
-	int				*items;
-	long long		top;
-	long long		*max_size;
-	long long		i_max; // index of max item
-	long long		i_min; // index of min item
-	void			(*ops[OP_CODE_COUNT])(t_data *);
-	t_data			*meta;
+	int			*items;
+	long long	top;
+	long long	*max_size;
+	long long	i_max; // index of max item
+	long long	i_min; // index of min item
+	void		(*ops[OP_CODE_COUNT])(t_data *);
+	t_data		*meta;
 };
 
 /**
@@ -78,10 +72,10 @@ struct s_stack {
  */
 struct s_data
 {
-	t_stack 		*a;
-	t_stack			*b;
-	long long		max_size;
-	t_list			*ops_head;
+	t_stack 	*a;
+	t_stack		*b;
+	long long	max_size;
+	t_list		*ops_head;
 };
 
 
@@ -95,7 +89,10 @@ int		push(t_stack *st, int value);
 int		pop(t_stack *st);
 
 int		is_empty(const t_stack *st);
-int		is_full(const t_stack *st);
+
+void	do_sort(t_data *dat);
+void	perform_operation_lst(t_data *dat, t_list *lst);
+void	move_to_top(t_data *dat, t_stack *st, long long index);
 
 // Literals:
 
@@ -151,10 +148,9 @@ void	print_stacks(t_data *dat);
 t_opc	*create_cost(long long index);
 void	destroy_cost(t_opc *cst);
 
-int	append_ops(t_opc *cst, t_stack *st,
-		t_op_code code, long long count);
+int		append_ops(t_opc *cst, t_stack *st,
+			t_op_code code, long long count);
 
-// size_t	cost_to_move_to_top(t_stack *st, long long index);
 size_t	cost_to_move_to_top(t_opc *cst, t_stack *st , long long index);
 size_t	cost_for_position(t_opc *cst, t_stack *st, int value);
 t_opc	*get_cost(t_stack *from, t_stack *too, long long index);

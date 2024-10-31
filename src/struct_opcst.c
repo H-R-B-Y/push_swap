@@ -26,10 +26,10 @@ int	append_ops(t_opc *cst, t_stack *st,
 	tmp->count = count;
 	tmp->op = code;
 	tmp->st = st;
-	return (1);
+	return (count);
 }
 
-t_opc *create_cost(long long index)
+t_opc	*create_cost(long long index)
 {
 	t_opc	*output; 
 

@@ -40,10 +40,3 @@ int	is_empty(const t_stack *st)
 		return (0);
 	return (st->top == -1);
 }
-
-int	is_full(const t_stack *st)
-{
-	if (!st)
-		return (0);
-	return (st->top == (long long)*st->max_size);
-}
