@@ -15,6 +15,7 @@
 
 # include "../include/libft.h"
 # include "../include/ft_printf.h"
+# include "input_handling/input_handler.h"
 
 
 // Typedefs:
@@ -23,7 +24,7 @@ typedef struct s_stack	t_stack;
 typedef struct s_data	t_data;
 
 typedef enum e_op_code {
-	SWAP, PUSH, ROT, REV,
+	SWAP, PUSH, ROT, REV, RR, RRR,
 	OP_CODE_COUNT
 } t_op_code;
 
@@ -155,6 +156,8 @@ size_t	cost_to_move_to_top(t_opc *cst, t_stack *st , long long index);
 size_t	cost_for_position(t_opc *cst, t_stack *st, int value);
 t_opc	*get_cost(t_stack *from, t_stack *too, long long index);
 t_opc	*get_least_cost(t_stack *from, t_stack *too);
+
+void	reduce_cost(t_opc *cost);
 
 // Stuff that shouldn't exist goes here (re-factor this into something else.)
 

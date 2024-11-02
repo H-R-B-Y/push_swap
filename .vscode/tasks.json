@@ -9,7 +9,8 @@
 			"command": "make",
 			"args": [
 				"all",
-				"clean"
+				"clean",
+				"DEBUG=debug"
 			]
 		}
 	]

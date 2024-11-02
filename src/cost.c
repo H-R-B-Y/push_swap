@@ -71,11 +71,12 @@ t_opc	*get_cost(t_stack *from, t_stack *too, long long index)
 	if (from->items[index] > too->items[too->i_max])
 		cost->op_count += cost_to_move_to_top(cost, too, too->i_max);
 	else if (from->items[index] < too->items[too->i_min])
-		cost->op_count += cost_to_move_to_top(cost, too, too->i_max);
+		cost->op_count += cost_to_move_to_top(cost, too, too->i_min);
 	else if (too->i_min - too->i_max == 0)
 		cost->op_count += append_ops(cost, too, ROT, 1);
 	else
 		cost->op_count += cost_for_position(cost, too, from->items[index]);
+	reduce_cost(cost);
 	cost->op_count += 1;
 	append_ops(cost, from, PUSH, 1);
 	return (cost);

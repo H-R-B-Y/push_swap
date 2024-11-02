@@ -21,7 +21,10 @@ SRC			= \
 			$(SRC_DIR)/struct_data.c \
 			$(SRC_DIR)/struct_stack.c \
 			$(SRC_DIR)/struct_opcst.c \
-			$(SRC_DIR)/cost.c
+			$(SRC_DIR)/cost.c \
+			$(SRC_DIR)/cost_reduction.c \
+			$(SRC_DIR)/input_handling/input_handler.c \
+			$(SRC_DIR)/input_handling/input_util.c
 
 ifeq ($(DEBUG), debug)
 	SRC		+= \

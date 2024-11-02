@@ -24,7 +24,7 @@ void	move_to_top(t_data *dat, t_stack *st, long long index)
 	mid = st->top / 2;
 	f = st->ops[(REV * (index < mid)) + (ROT * !(index < mid))];
 	if (index < mid)
-		iter = index;
+		iter = index + 1;
 	else
 		iter = (st->top - index);
 	while (iter--)
@@ -41,7 +41,11 @@ void	perform_operation_lst(t_data *dat, t_list *lst)
 	{
 		operations = (t_op_desc *)index->content;
 		while (operations->count--)
+		{
+			print_stacks(dat);
 			operations->st->ops[operations->op](dat);
+			print_stacks(dat);
+		}
 		index = index->next;
 	}
 	

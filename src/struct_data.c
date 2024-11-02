@@ -12,6 +12,22 @@
 
 # include "push_swap.h"
 
+static void	set_funcs(t_stack *a, t_stack *b)
+{
+	a->ops[SWAP] = swap_a;
+	a->ops[PUSH] = push_b;
+	a->ops[ROT] = rot_a;
+	a->ops[REV] = rev_a;
+	a->ops[RR] = rot_rot;
+	a->ops[RRR] = rev_rev;
+	b->ops[SWAP] = swap_b;
+	b->ops[PUSH] = push_a;
+	b->ops[ROT] = rot_b;
+	b->ops[REV] = rev_b;
+	b->ops[RR] = rot_rot;
+	b->ops[RRR] = rev_rev;
+}
+
 t_data *init_data(size_t max_size)
 {
 	t_data *dat;
@@ -23,18 +39,11 @@ t_data *init_data(size_t max_size)
 	dat->a = init_stack(max_size);
 	dat->a->meta = dat;
 	dat->a->max_size = &dat->max_size;
-	dat->a->ops[SWAP] = swap_a;
-	dat->a->ops[PUSH] = push_b;
-	dat->a->ops[ROT] = rot_a;
-	dat->a->ops[REV] = rev_a;
 	dat->b = init_stack(max_size);
 	dat->b->meta = dat;
 	dat->b->max_size = &dat->max_size;
-	dat->b->ops[SWAP] = swap_b;
-	dat->b->ops[PUSH] = push_a;
-	dat->b->ops[ROT] = rot_b;
-	dat->b->ops[REV] = rev_b;
 	dat->ops_head = 0;
+	set_funcs(dat->a, dat->b);
 	return (dat);
 }
 
