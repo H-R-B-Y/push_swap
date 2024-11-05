@@ -39,7 +39,6 @@ void	rev_a(t_data *dat)
 		|| dat->a->top <= 0)
 		return ;
 	_rev_rot(dat->a);
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("rra")));
 }
 
@@ -51,7 +50,6 @@ void	rev_b(t_data *dat)
 		|| dat->b->top <= 0)
 		return ;
 	_rev_rot(dat->b);
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("rrb")));
 }
 

@@ -24,6 +24,6 @@ int main(int argc, char **argv)
 	dat->a->items = arr;
 	dat->a->top = count - 1;
 	do_sort(dat);
-	print_ops(dat);
+	// print_ops(dat);
 	destory_data(dat);
 }

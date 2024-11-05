@@ -68,10 +68,8 @@ t_opc	*get_cost(t_stack *from, t_stack *too, long long index)
 
 	cost = create_cost(index);
 	cost->op_count += cost_to_move_to_top(cost, from, index);
-	if (from->items[index] > too->items[too->i_max])
+	if (from->items[index] > too->items[too->i_max] || from->items[index] < too->items[too->i_min])
 		cost->op_count += cost_to_move_to_top(cost, too, too->i_max);
-	else if (from->items[index] < too->items[too->i_min])
-		cost->op_count += cost_to_move_to_top(cost, too, too->i_min);
 	else if (too->i_min - too->i_max == 0)
 		cost->op_count += append_ops(cost, too, ROT, 1);
 	else
@@ -92,6 +90,7 @@ t_opc	*get_least_cost(t_stack *from, t_stack *too)
 	index = from->top;
 	current_least = get_cost(from, too, index--);
 	while (!(current_least->op_count <= 2) && index >= 0) // loop through all items in from
+	//while (!(current_least->op_count <= (from->top - current_least->index) + 1) && index >= 0) // loop through all items in from
 	{
 		temp = get_cost(from, too, index--);
 		if (temp->op_count < current_least->op_count)

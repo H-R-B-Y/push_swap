@@ -33,6 +33,15 @@ ifeq ($(DEBUG), debug)
 			$(SRC_DIR)/debug/dbg_rotations.c \
 			$(SRC_DIR)/debug/dbg_swaps.c \
 			$(SRC_DIR)/debug/sort.c
+
+else ifeq ($(DEBUG), test)
+	SRC		+= \
+			$(SRC_DIR)/test/dbg_pushes.c \
+			$(SRC_DIR)/test/dbg_rev_rotations.c \
+			$(SRC_DIR)/test/dbg_rotations.c \
+			$(SRC_DIR)/test/dbg_swaps.c \
+			$(SRC_DIR)/test/sort.c
+
 else
 	SRC		+= \
 			$(SRC_DIR)/ops/pushes.c \
@@ -41,6 +50,9 @@ else
 			$(SRC_DIR)/ops/swaps.c \
 			$(SRC_DIR)/sort.c
 endif
+
+TITLE		?= test
+NUM_RUNS	?= 1000
 
 OBJ			= $(SRC:.c=.o)
 
@@ -68,6 +80,7 @@ $(NAME):	$(MAIN) $(HEADER) $(PRINTF) $(LIBFT) $(OBJ)
 clean:
 			rm -f $(OBJ)
 			rm -f $(SRC_DIR)/debug/*.o
+			rm -f $(SRC_DIR)/test/*.o
 			$(MAKE) --directory $(PRINTF_DIR) clean
 			$(MAKE) --directory $(LIBFT_DIR) clean
 
@@ -77,8 +90,12 @@ fclean:		clean
 			rm -f $(LIBFT)
 			rm -f $(PRINTF)
 
+test:
+			@mv push_swap.out $(TITLE).out
+			@./test/run.py ./$(TITLE).out --num_runs=$(NUM_RUNS) --output=output.png --threads=12
+			@mv output.png $(NUM_RUNS)-$(TITLE)-$$(date +%H%M%S).png
+			@echo "Done"
 
 re:			fclean all
 
-
-.PHONY:		re all clean fclean bonus
+.PHONY:		re all clean fclean bonus test

@@ -39,7 +39,6 @@ void	rot_a(t_data *dat)
 		|| dat->a->top <= 0)
 		return ;
 	_rot(dat->a);
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("ra")));
 }
 
@@ -51,7 +50,6 @@ void	rot_b(t_data *dat)
 		|| dat->b->top == 0)
 		return ;
 	_rot(dat->b);
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("rb")));
 }
 

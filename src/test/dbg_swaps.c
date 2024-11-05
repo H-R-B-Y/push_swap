@@ -36,7 +36,6 @@ void	swap_a(t_data *dat)
 	if (!dat || dat->a->top <= 0)
 		return ;
 	_swap(dat->a);
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("sa")));
 }
 
@@ -47,7 +46,6 @@ void	swap_b(t_data *dat)
 	if (!dat || dat->b->top <= 0)
 		return ;
 	_swap(dat->b);
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("sb")));
 }
 

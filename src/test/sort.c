@@ -41,16 +41,10 @@ void	perform_operation_lst(t_data *dat, t_list *lst)
 	{
 		operations = (t_op_desc *)index->content;
 		while (operations->count--)
-		{
-			// //print_stacks(dat);
 			operations->st->ops[operations->op](dat);
-			// //print_stacks(dat);
-		}
 		index = index->next;
 	}
-	
 }
-
 void sort_three(t_stack *st)
 {
 	int *i;
@@ -85,7 +79,6 @@ void push_back(t_stack *from, t_stack *too, int count)
 		too->ops[REV](too->meta);
 }
 
-
 // int is_sorted_recursive(int *items, size_t index, size_t size, int direction) {
 // 	if (index >= size - 1) {
 // 		return direction; // Base case: reached the end, return the sorting direction
@@ -117,7 +110,7 @@ void push_back(t_stack *from, t_stack *too, int count)
 
 void do_sort(t_data *dat)
 {
-	t_opc *cur_op;
+	t_opc	*cur_op;
 
 	while (dat->a->top > 2)
 	{
@@ -126,7 +119,8 @@ void do_sort(t_data *dat)
 		destroy_cost(cur_op);
 	}
 	sort_three(dat->a);
-	print_stacks(dat);
 	move_to_top(dat, dat->b, dat->b->i_max);
 	push_back(dat->b, dat->a, dat->a->top + 1);
+	ft_printf("%d\n", ft_lstsize(dat->ops_head));
+	print_stack(dat->a);
 }

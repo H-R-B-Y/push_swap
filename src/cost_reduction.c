@@ -31,26 +31,23 @@ void	_less_diff_dir(
 
 	if (a_op->op == REV && b_op->op == ROT)
 	{
-		combined_count = a_op->st->top - a_op->count;
-		if (combined_count < b_op->count)
-		{
-			a_op->op = RR; // Rotate both forward instead
-			a_op->count = combined_count; // Set the count to achieve the desired index on top of a
-			b_op->count -= combined_count; // Adjust b's count by removing the combined rotations
-			cost->op_count -= combined_count;
-		}
+		combined_count = a_op->st->top - (a_op->count - 1);
+		if (!(combined_count <= b_op->count))
+			return ;
+		a_op->op = RR; // Rotate both forward instead
 	}
 	else if (a_op->op == ROT && b_op->op == REV)
 	{
-		combined_count = a_op->st->top - a_op->count;
-		if (combined_count < b_op->count) // If reverse rotation is less costly
-		{
-			a_op->op = RRR; // Use reverse rotation instead
-			a_op->count = combined_count; // Set count to bring the index to the top with RRR
-			b_op->count -= combined_count; // Adjust b's count accordingly
-			cost->op_count -= combined_count;
-		}
+		combined_count = (a_op->st->top - a_op->count) + 1;
+		if (!(combined_count <= b_op->count)) // If reverse rotation is less costly
+			return ;
+		a_op->op = RRR; // Use reverse rotation instead
 	}
+	else
+		return ;
+	a_op->count = combined_count; // Set the count to achieve the desired index on top of a
+	b_op->count -= combined_count; // Adjust b's count by removing the combined rotations
+	cost->op_count = a_op->count + b_op->count;
 }
 
 void	reduce_diff_directions(
@@ -58,9 +55,7 @@ void	reduce_diff_directions(
 	t_op_desc *a_op,
 	t_op_desc *b_op)
 {
-	if (a_op->count == b_op->count)
-		return ;
-	else if (a_op->count < b_op->count)
+	if (a_op->count < b_op->count)
 		_less_diff_dir(cost, a_op, b_op);
 	else
 		_less_diff_dir(cost, b_op, a_op);
@@ -109,7 +104,7 @@ void	reduce_cost(t_opc *cost)
 		else
 			reduce_same_direction(cost, a_op, b_op);
 	}
-	//else
-		//reduce_diff_directions(cost, a_op, b_op);
+	else
+		reduce_diff_directions(cost, a_op, b_op);
 	return ;
 }

@@ -39,7 +39,6 @@ void	push_a(t_data *dat)
 		dat->a->i_max = dat->a->top;
 	if (dat->a->i_min == -1 || dat->a->items[dat->a->i_min] > val)
 		dat->a->i_min = dat->a->top;
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("pa")));
 }
 
@@ -57,6 +56,5 @@ void	push_b(t_data *dat)
 		dat->b->i_max = dat->b->top;
 	if (dat->b->i_min == -1 || dat->b->items[dat->b->i_min] > val)
 		dat->b->i_min = dat->b->top;
-	print_stacks(dat);
 	ft_lstadd_back(&dat->ops_head, ft_lstnew(ft_strdup("pb")));
 }

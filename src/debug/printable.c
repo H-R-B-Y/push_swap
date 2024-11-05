@@ -41,7 +41,7 @@ void	print_stack(t_stack *st)
 	{
 		ft_printf("%d", st->items[index]);
 		if (index != st->top)
-			ft_putstr_fd(", ", 1);
+			ft_putstr_fd(" ", 1);
 		index++;
 	}
 	ft_putendl_fd("", 1);
@@ -89,4 +89,5 @@ void print_stacks(t_data *dat)
 	}
 	ft_printf("--------------------------------------\n");
 	ft_printf("A		|		B\n");
+	usleep(100000);
 }
