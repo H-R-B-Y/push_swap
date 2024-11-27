@@ -51,7 +51,7 @@ static void	_print_wrapper(void *d)
 {
 	if (!d)
 		return ;
-	ft_printf("%s ", (char *)d);
+	ft_printf("%s\n", (char *)d);
 }
 
 void	print_ops(t_data *dat)
@@ -59,7 +59,6 @@ void	print_ops(t_data *dat)
 	if (!dat)
 		return ;
 	ft_lstiter(dat->ops_head, _print_wrapper);
-	ft_putendl_fd("", 1);
 }
 
 # include <unistd.h>
@@ -89,5 +88,4 @@ void print_stacks(t_data *dat)
 	}
 	ft_printf("--------------------------------------\n");
 	ft_printf("A		|		B\n");
-	usleep(100000);
 }

@@ -119,6 +119,7 @@ void do_sort(t_data *dat)
 {
 	t_opc *cur_op;
 
+	print_stacks(dat);
 	while (dat->a->top > 2)
 	{
 		cur_op = get_least_cost(dat->a, dat->b);

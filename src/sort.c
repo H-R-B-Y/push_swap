@@ -24,7 +24,7 @@ void	move_to_top(t_data *dat, t_stack *st, long long index)
 	mid = st->top / 2;
 	f = st->ops[(REV * (index < mid)) + (ROT * !(index < mid))];
 	if (index < mid)
-		iter = index;
+		iter = index + 1;
 	else
 		iter = (st->top - index);
 	while (iter--)
@@ -44,25 +44,53 @@ void	perform_operation_lst(t_data *dat, t_list *lst)
 			operations->st->ops[operations->op](dat);
 		index = index->next;
 	}
-	
+}
+void sort_three(t_stack *st)
+{
+	int *i;
+
+	i = st->items;
+	if (i[st->top] < i[st->top - 1] && i[st->top -1] < i[st->top - 2])
+		return ;
+	if (i[st->top] < i[st->top - 1] && i[st->top - 1] > i[st->top - 2])
+	{
+		st->ops[REV](st->meta);
+		sort_three(st);
+		return ;
+	}
+	else if ((i[st->top] > i[st->top - 1] && i[st->top - 1] > i[st->top - 2])
+		|| (i[st->top] > i[st->top - 1] && i[st->top - 1] < i[st->top - 2]))
+	{
+		st->ops[SWAP](st->meta);
+		sort_three(st);
+		return ;
+	}
+}
+
+void push_back(t_stack *from, t_stack *too, int count)
+{
+	while (!is_empty(from))
+	{
+		while (too->items[0] > from->items[from->top] && count && count--)
+			too->ops[REV](too->meta);
+		from->ops[PUSH](from->meta);
+	}
+	while (too->items[0] < too->items[too->top] && count && count--)
+		too->ops[REV](too->meta);
 }
 
 void do_sort(t_data *dat)
 {
-	t_opc *cur_op;
+	t_opc	*cur_op;
 
-	dat->a->ops[PUSH](dat);
-	dat->a->ops[PUSH](dat);
-
-	// calculate move of least cost!
-	while (!is_empty(dat->a))
+	while (dat->a->top > 2)
 	{
-		// Returns a list of operations to perform and the length of the list.
 		cur_op = get_least_cost(dat->a, dat->b);
 		perform_operation_lst(dat, cur_op->ops);
 		destroy_cost(cur_op);
 	}
+	sort_three(dat->a);
 	move_to_top(dat, dat->b, dat->b->i_max);
-	while(!is_empty(dat->b))
-		dat->b->ops[PUSH](dat);
+	push_back(dat->b, dat->a, dat->a->top + 1);
+	print_ops(dat);
 }
